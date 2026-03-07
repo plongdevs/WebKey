@@ -451,7 +451,7 @@
   <span>Đã copy key!</span>
 </div>
 
-<audio id="bgMusic" src="music.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="assets/music1.mp3" preload="auto"></audio>
 
 <!-- ── MEDIA PLAYER OVERLAY ── -->
 <div class="player-overlay" id="playerOverlay">
@@ -467,10 +467,10 @@
         <span class="player-song">
           <!-- doubled for seamless marquee -->
           <span class="player-song-inner" id="songTitle">
-            Obito - Tell The Kids I Love Them ft. SHIKI &nbsp;&nbsp;•&nbsp;&nbsp; Obito - Tell The Kids I Love Them ft. SHIKI &nbsp;&nbsp;•&nbsp;&nbsp;
+            Obito - Con kể Ba nghe &nbsp;&nbsp;•&nbsp;&nbsp; Obito - Con kể Ba nghe &nbsp;&nbsp;•&nbsp;&nbsp;
           </span>
         </span>
-        <span class="player-artist">Obito ft. SHIKI · lofi / R&B</span>
+        <span class="player-artist" id="songArtist">Obito · lofi / R&B</span>
       </div>
       <div class="player-eq" id="playerEq">
         <span></span><span></span><span></span><span></span>
@@ -605,6 +605,14 @@
     setTimeout(() => t.classList.remove('show'), 2200);
   }
 
+  // ── PLAYLIST ──────────────────────────────────────
+  const playlist = [
+    { src: 'assets/music1.mp3', title: 'Obito - Con kể Ba nghe',                        artist: 'Obito · lofi / R&B' },
+    { src: 'assets/music2.mp3', title: 'Obito - Tell The Kids I Love Them ft. SHIKI',   artist: 'Obito ft. SHIKI · lofi / R&B' },
+    { src: 'assets/music3.mp3', title: 'Em Còn Nhớ Anh Không? - Hoàng Tôn (Feat. Koo)', artist: 'Hoàng Tôn ft. Koo · R&B' },
+  ];
+  let currentIdx = 0;
+
   // ── MUSIC & PLAYER ────────────────────────────────
   const music      = document.getElementById('bgMusic');
   const overlay    = document.getElementById('playerOverlay');
@@ -619,12 +627,29 @@
   const progressTrack = document.getElementById('progressTrack');
   const playerEq      = document.getElementById('playerEq');
   const playerThumb   = document.getElementById('playerThumb');
+  const songTitleEl   = document.getElementById('songTitle');
+  const songArtistEl  = document.getElementById('songArtist');
 
   function fmtTime(s) {
     if (!isFinite(s)) return '--:--';
     const m = Math.floor(s / 60);
     const sec = Math.floor(s % 60);
     return `${m}:${String(sec).padStart(2,'0')}`;
+  }
+
+  function loadTrack(idx, autoplay) {
+    const track = playlist[idx];
+    music.src = track.src;
+    music.load();
+    // Double title for seamless marquee
+    songTitleEl.innerHTML = `${track.title} &nbsp;&nbsp;•&nbsp;&nbsp; ${track.title} &nbsp;&nbsp;•&nbsp;&nbsp;`;
+    songArtistEl.textContent = track.artist;
+    progressFill.style.width = '0%';
+    timeCurrent.textContent = '0:00';
+    timeDuration.textContent = '--:--';
+    if (autoplay) {
+      music.play().then(() => setPlayingUI(true)).catch(() => {});
+    }
   }
 
   function setPlayingUI(playing) {
@@ -659,7 +684,6 @@
     } else {
       music.pause();
       setPlayingUI(false);
-      // keep player visible when paused; close only via X
     }
   }
 
@@ -673,20 +697,20 @@
     }
   });
 
-  // Prev: restart track
+  // Prev: go to previous song (or restart if at beginning)
   document.getElementById('btnPrev').addEventListener('click', () => {
-    music.currentTime = 0;
-    if (music.paused) {
-      music.play().then(() => setPlayingUI(true)).catch(() => {});
+    if (music.currentTime > 3) {
+      music.currentTime = 0;
+    } else {
+      currentIdx = (currentIdx - 1 + playlist.length) % playlist.length;
+      loadTrack(currentIdx, !music.paused);
     }
   });
 
-  // Next: restart same track (only one song)
+  // Next: go to next song
   document.getElementById('btnNext').addEventListener('click', () => {
-    music.currentTime = 0;
-    if (music.paused) {
-      music.play().then(() => setPlayingUI(true)).catch(() => {});
-    }
+    currentIdx = (currentIdx + 1) % playlist.length;
+    loadTrack(currentIdx, !music.paused);
   });
 
   // Close player
@@ -717,10 +741,10 @@
     music.currentTime = ratio * music.duration;
   });
 
-  // Auto-loop (already handled by removing loop attr and just replaying)
+  // Auto-advance to next song when ended
   music.addEventListener('ended', () => {
-    music.currentTime = 0;
-    music.play().then(() => setPlayingUI(true)).catch(() => {});
+    currentIdx = (currentIdx + 1) % playlist.length;
+    loadTrack(currentIdx, true);
   });
 </script>
 
