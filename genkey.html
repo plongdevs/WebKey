@@ -11,11 +11,9 @@
     --bg:     #050508;
     --card:   rgba(20,20,25,0.6);
     --accent: #00e5ff;
-    --dim:    #00e5ff40;
     --text:   #ffffff;
     --muted:  #94a3b8;
     --red:    #ff2d55;
-    --gold:   #ffd700;
     --border: rgba(255,255,255,0.08);
   }
 
@@ -74,6 +72,19 @@
     opacity: 0.6;
   }
 
+  @keyframes scanline {
+    0% { top: -5%; }
+    100% { top: 105%; }
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.15), transparent);
+    animation: scanline 4s linear infinite;
+    pointer-events: none;
+  }
+
   .header { text-align: center; margin-bottom: 30px; }
   .logo {
     font-family: 'Share Tech Mono', monospace;
@@ -108,11 +119,7 @@
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 14px 16px;
-    cursor: pointer;
-    transition: 0.2s;
     display: flex; align-items: center; gap: 14px;
-  }
-  .app-card.selected {
     border-color: var(--accent);
     background: rgba(0,229,255,0.06);
     box-shadow: 0 0 20px rgba(0,229,255,0.1);
@@ -124,59 +131,47 @@
     font-size: 1.3rem; flex-shrink: 0;
   }
   .app-name { font-size: 1rem; font-weight: 700; color: var(--text); }
-  .app-desc { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
   .app-check {
     margin-left: auto;
     width: 20px; height: 20px; border-radius: 50%;
-    border: 1.5px solid var(--muted);
+    background: var(--accent); border: 1.5px solid var(--accent);
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; transition: 0.2s;
+    flex-shrink: 0;
   }
-  .app-card.selected .app-check {
-    background: var(--accent); border-color: var(--accent);
-  }
-  .app-card.selected .app-check::after {
+  .app-check::after {
     content: '✓'; font-size: 0.65rem; color: #000; font-weight: 900;
   }
 
-  .key-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
-  .key-card {
-    background: rgba(0,0,0,0.3);
-    border: 1px solid var(--border);
+  .key-block {
+    border: 1px solid rgba(0,229,255,0.3);
     border-radius: 14px;
-    padding: 16px 12px;
-    cursor: pointer;
-    transition: 0.2s;
-    text-align: center;
-  }
-  .key-card:hover { border-color: rgba(0,229,255,0.3); }
-  .key-card.selected {
-    border-color: var(--accent);
+    padding: 18px 16px;
     background: rgba(0,229,255,0.06);
-    box-shadow: 0 0 20px rgba(0,229,255,0.1);
-  }
-  .key-card.selected.gold {
-    border-color: var(--gold);
-    background: rgba(255,215,0,0.06);
-    box-shadow: 0 0 20px rgba(255,215,0,0.1);
-  }
-  .key-links {
-    font-size: 0.65rem; font-weight: 700;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 6px;
-    font-family: 'Share Tech Mono', monospace;
+    box-shadow: 0 0 20px rgba(0,229,255,0.08);
+    margin-bottom: 22px;
+    display: flex; align-items: center; justify-content: space-between;
   }
   .key-duration {
-    font-size: 1.6rem; font-weight: 700;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 2rem; font-weight: 700;
+    color: var(--accent);
+    text-shadow: 0 0 16px rgba(0,229,255,0.5);
     line-height: 1;
+  }
+  .key-desc { font-size: 0.7rem; color: var(--muted); margin-top: 5px; }
+  .key-pill {
+    padding: 5px 14px; border-radius: 20px;
+    background: rgba(0,229,255,0.1);
+    border: 1px solid rgba(0,229,255,0.25);
+    font-size: 0.62rem; font-weight: 700;
+    color: var(--accent); text-transform: uppercase; letter-spacing: 1px;
     font-family: 'Share Tech Mono', monospace;
   }
-  .key-card.selected:not(.gold) .key-duration { color: var(--accent); }
-  .key-card.selected.gold .key-duration { color: var(--gold); }
-  .key-card:not(.selected) .key-duration { color: var(--muted); }
-  .key-sub {
-    font-size: 0.68rem; color: var(--muted);
-    margin-top: 4px;
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 20px 0;
   }
 
   .captcha-wrap {
@@ -206,6 +201,7 @@
   .result { margin-top: 20px; display: none; }
   .result.show { display: block; animation: fadeUp 0.4s ease; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
   .result-label {
     font-size: 0.62rem; color: var(--muted); letter-spacing: 2px;
     text-transform: uppercase; font-family: 'Share Tech Mono', monospace;
@@ -257,25 +253,6 @@
     vertical-align: middle; margin-right: 8px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 20px 0;
-  }
-
-  @keyframes scanline {
-    0% { top: -5%; }
-    100% { top: 105%; }
-  }
-  .card::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.15), transparent);
-    animation: scanline 4s linear infinite;
-    pointer-events: none;
-  }
 </style>
 </head>
 <body>
@@ -286,9 +263,9 @@
     <span class="tagline">Key Generation System</span>
   </div>
 
-  <div class="sec-label">Chọn ứng dụng</div>
-  <div class="app-grid" id="appGrid">
-    <div class="app-card selected" data-app="superpingpro" onclick="selectApp(this)">
+  <div class="sec-label">Ứng dụng</div>
+  <div class="app-grid">
+    <div class="app-card">
       <div class="app-icon">⚡</div>
       <div>
         <div class="app-name">Super Ping</div>
@@ -299,18 +276,13 @@
 
   <div class="divider"></div>
 
-  <div class="sec-label">Chọn loại key</div>
-  <div class="key-grid">
-    <div class="key-card selected" data-links="1" onclick="selectKey(this)">
-      <div class="key-links">1 link</div>
+  <div class="sec-label">Loại key</div>
+  <div class="key-block">
+    <div>
       <div class="key-duration">24H</div>
-      <div class="key-sub">Free</div>
+      <div class="key-desc">1 link • Miễn phí</div>
     </div>
-    <div class="key-card" data-links="2" onclick="selectKey(this)">
-      <div class="key-links">2 links</div>
-      <div class="key-duration">48H</div>
-      <div class="key-sub">Free</div>
-    </div>
+    <div class="key-pill">Free</div>
   </div>
 
   <div class="divider"></div>
@@ -341,28 +313,11 @@
 
 <script>
   const WORKER_URL = "https://k7m2q9x1a8z4p6.phamlongsoftware.workers.dev";
-  let selectedApp   = "superpingpro";
-  let selectedLinks = 1;
-  let finalUrl      = "";
-
-  function selectApp(el) {
-    document.querySelectorAll('.app-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedApp = el.dataset.app;
-  }
-
-  function selectKey(el) {
-    document.querySelectorAll('.key-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedLinks = parseInt(el.dataset.links);
-  }
+  let finalUrl = "";
 
   async function handleGenerate() {
     const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
-    if (!token) {
-      showError("Vui lòng xác minh CAPTCHA!");
-      return;
-    }
+    if (!token) { showError("Vui lòng xác minh CAPTCHA!"); return; }
 
     const btn = document.getElementById('btnGen');
     btn.disabled = true;
@@ -371,19 +326,12 @@
     document.getElementById('resultBox').classList.remove('show');
 
     try {
-      const res  = await fetch(
-        `${WORKER_URL}?links=${selectedLinks}&token=${encodeURIComponent(token)}`
-      );
+      const res  = await fetch(`${WORKER_URL}?token=${encodeURIComponent(token)}`);
       const data = await res.json();
-
-      if (!res.ok || !data.url) {
-        throw new Error(data.message || "Lỗi server. Thử lại!");
-      }
-
+      if (!res.ok || !data.url) throw new Error(data.message || "Lỗi server. Thử lại!");
       finalUrl = data.url;
       document.getElementById('resultUrl').textContent = finalUrl;
       document.getElementById('resultBox').classList.add('show');
-
     } catch (e) {
       showError("❌ " + (e.message || "Không thể tạo key. Thử lại!"));
     } finally {
@@ -393,18 +341,9 @@
     }
   }
 
-  function goLink() {
-    if (finalUrl) window.open(finalUrl, '_blank');
-  }
-
-  function showError(msg) {
-    const el = document.getElementById('errorBox');
-    el.textContent = msg;
-    el.classList.add('show');
-  }
-  function hideError() {
-    document.getElementById('errorBox').classList.remove('show');
-  }
+  function goLink() { if (finalUrl) window.open(finalUrl, '_blank'); }
+  function showError(msg) { const el = document.getElementById('errorBox'); el.textContent = msg; el.classList.add('show'); }
+  function hideError() { document.getElementById('errorBox').classList.remove('show'); }
 </script>
 </body>
 </html>
