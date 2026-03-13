@@ -24,7 +24,6 @@
 
   html { scroll-behavior: smooth; }
 
-  /* ✅ flex-column để footer dính đáy */
   body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background: var(--bg);
@@ -60,7 +59,7 @@
     to   { transform: scale(1.2); }
   }
 
-  /* ── NAV — giống trang chủ ── */
+  /* ── NAV ── */
   nav {
     position: sticky; top: 0; z-index: 100;
     padding: 16px 24px;
@@ -91,7 +90,6 @@
   }
 
   /* ── LAYOUT ── */
-  /* ✅ flex:1 để đẩy footer xuống đáy */
   .main-content {
     position: relative; z-index: 1;
     flex: 1;
@@ -139,7 +137,6 @@
 
   .app-header { display: flex; align-items: flex-start; gap: 20px; }
 
-  /* ✅ Gộp 2 định nghĩa .app-icon thành 1 */
   .app-icon {
     width: 72px; height: 72px; flex-shrink: 0;
     background: rgba(0,229,255,0.08);
@@ -255,7 +252,6 @@
   .card-changelog { border-color: rgba(0,255,170,0.15); }
   .card-changelog::before { background: linear-gradient(90deg, transparent, var(--green), transparent); }
 
-  /* ✅ Style cho .beta-note — thiếu hoàn toàn trong bản gốc */
   .beta-note {
     width: 100%;
     font-size: 0.78rem;
@@ -279,7 +275,6 @@
     font-size: 0.75rem; font-weight: 700;
     padding: 5px 12px; border-radius: 8px; letter-spacing: 0.5px;
   }
-  /* ✅ Thêm .ver-tag.latest và .ver-tag.beta và .ver-tag.old */
   .ver-tag.latest, .ver-tag.beta {
     background: rgba(0,229,255,0.12); color: var(--accent);
     border: 1px solid rgba(0,229,255,0.3);
@@ -291,7 +286,6 @@
   .ver-date {
     font-size: 0.72rem; color: var(--muted);
   }
-  /* ✅ .ver-badge — thiếu trong bản gốc (chỉ có .ver-latest-badge nhưng HTML dùng .ver-badge) */
   .ver-badge {
     margin-left: auto;
     font-size: 0.6rem; font-weight: 700;
@@ -318,7 +312,7 @@
     margin: 20px 0;
   }
 
-  /* ── FOOTER — giống trang chủ ── */
+  /* ── FOOTER ── */
   footer {
     position: relative; z-index: 1;
     border-top: 1px solid var(--border);
@@ -358,13 +352,12 @@
 <div class="bg-glow-1"></div>
 <div class="bg-glow-2"></div>
 
-<!-- ✅ Thêm nav giống trang chủ -->
 <nav>
   <a href="index.html" class="nav-brand">
     <div class="nav-dot"></div>
     Super<span>Ping</span>
   </a>
-  <span class="nav-badge">v1.1</span>
+  <span class="nav-badge">v1.2</span>
 </nav>
 
 <div class="main-content">
@@ -380,9 +373,9 @@
           <div class="app-name">Super<span>Ping</span></div>
           <div class="app-subtitle">Tool hỗ trợ chơi game — nhẹ, nhanh, ổn định.<br>Không cần root, hoạt động ngầm.</div>
           <div class="app-badges">
-            <span class="badge-pill ver">v1.1</span>
+            <span class="badge-pill ver">v1.2</span>
             <span class="badge-pill free">Free</span>
-            <span class="badge-pill size">9 MB</span>
+            <span class="badge-pill size">5 MB</span>
           </div>
         </div>
       </div>
@@ -400,54 +393,64 @@
       <div class="card-header">
         <div class="card-icon purple"><i class="fas fa-star"></i></div>
         <span class="card-title">What's New</span>
-        <span class="card-ver-tag">v1.1</span>
+        <span class="card-ver-tag">v1.2</span>
       </div>
 
       <div class="whatsnew-list">
         <div class="whatsnew-item">
           <div class="whatsnew-dot"></div>
           <div class="whatsnew-text">
-            Hệ thống lấy key hoàn toàn mới
-            <small>Hệ thống lấy key tự động trên web</small>
+            VPN
+            <small>Hệ thống VPN mới, Bổ sung tính năng Tele</small>
           </div>
         </div>
         <div class="whatsnew-item">
           <div class="whatsnew-dot"></div>
           <div class="whatsnew-text">
-            Giao diện
-            <small>Chỉnh sửa giao diện app tối giản hơn</small>
+            Key
+            <small>Giảm thời lượng sử dụng key 1 link = 12 giờ 2 link = 24 giờ</small>
           </div>
         </div>
         <div class="whatsnew-item">
           <div class="whatsnew-dot"></div>
           <div class="whatsnew-text">
-            Chỉnh sửa VPN
-            <small>Fix lỗi 999+ Ghost đã có thể xa hơn Freeze cũng lâu hơn và Tele đã lên ping nhưng chưa tele được</small>
-          </div>
-        </div>
-        <div class="whatsnew-item">
-          <div class="whatsnew-dot"></div>
-          <div class="whatsnew-text">
-            Giao diện nút
-            <small>Các nút bấm đã được thiết kế lại</small>
+            Ban
+            <small>Fix ban off của tài khoản</small>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ── CARD 3: CHANGELOG ── -->
+    <!-- FIX: Tất cả ver-block nằm TRONG card này -->
     <div class="card card-changelog">
       <div class="card-header">
         <div class="card-icon teal"><i class="fas fa-code-branch"></i></div>
         <span class="card-title">Change Log</span>
       </div>
 
-      <!-- v1.1 -->
+      <!-- v1.2 (Latest) -->
       <div class="changelog-ver-block">
         <div class="ver-header">
-          <span class="ver-tag latest">v1.1</span>
-          <span class="ver-date">2026-03-10</span>
+          <span class="ver-tag latest">v1.2</span>
+          <span class="ver-date">2026-03-14</span>
           <span class="ver-badge">Latest</span>
+        </div>
+        <div class="change-list">
+          <div class="change-item"><i class="fas fa-plus add"></i> Hệ thống VPN mới, Bổ sung tính năng Tele</div>
+          <!-- FIX: đổi class "remove" → "del", icon fa-plus → fa-minus -->
+          <div class="change-item"><i class="fas fa-minus del"></i> Giảm thời lượng sử dụng key 1 link = 12 giờ 2 link = 24 giờ</div>
+          <div class="change-item"><i class="fas fa-wrench fix"></i> Fix ban off của tài khoản</div>
+        </div>
+      </div>
+
+      <div class="ver-sep"></div>
+
+      <!-- v1.1 (Stable) -->
+      <div class="changelog-ver-block">
+        <div class="ver-header">
+          <span class="ver-tag old">v1.1</span>
+          <span class="ver-date">2025-03-10</span>
         </div>
         <div class="change-list">
           <div class="change-item"><i class="fas fa-plus add"></i> Hệ thống lấy key tự động trên web</div>
@@ -458,11 +461,12 @@
 
       <div class="ver-sep"></div>
 
-      <!-- v1.1-Beta_1 (OLD · BETA) -->
+      <!-- v1.1-Beta_1 -->
+      <!-- FIX: ngày 2026-02-27 → 2025-02-27 (Beta phải ra trước stable) -->
       <div class="changelog-ver-block">
         <div class="ver-header">
           <span class="ver-tag old">v1.1-Beta_1</span>
-          <span class="ver-date">2026-02-27</span>
+          <span class="ver-date">2025-02-27</span>
         </div>
         <div class="change-list">
           <div class="change-item"><i class="fas fa-plus add"></i> Thêm hệ thống key đăng nhập hoàn toàn mới</div>
@@ -477,7 +481,6 @@
       <div class="changelog-ver-block">
         <div class="ver-header">
           <span class="ver-tag old">v1.0</span>
-          <!-- ✅ Sửa ngày sai 2025-23-02 → 2025-02-23 -->
           <span class="ver-date">2025-02-23</span>
         </div>
         <div class="change-list">
@@ -485,14 +488,15 @@
           <div class="change-item"><i class="fas fa-plus add"></i> Các chức năng VPN cơ bản như Ghost, Tele, Freeze</div>
         </div>
       </div>
+
     </div>
+    <!-- FIX: </div> đóng .card.card-changelog đúng chỗ -->
 
   </div>
 </div>
 
 <footer>
   <div class="footer-inner">
-    <!-- ✅ Bỏ space thừa trước SuperPing -->
     <div class="footer-copy">© 2026 <span>SuperPing</span> · All rights reserved</div>
     <div class="footer-links">
       <a href="terms.html">Điều khoản</a>
